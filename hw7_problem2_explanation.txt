@@ -1,0 +1,9 @@
+Recall: A blackbody is 
+Dependent on the wavelength, frequency, the speed of light, the Planck constant, the Stefan-Boltzmann constant, and temperature. 
+Temperature is the only variable as everything else in the equation is constant!
+Where most light comes out of EM spectrum depends on the temperature, we see visible light because of the sun's temperature, 5000K 
+We only see each other because of the sun's reflected light, can't see our emitted light because we emit infrared due to our ~300K temperature
+Observed at 870 x 10^-6 m wavelength, B(nu) is 1.25 x 10^-12 cgs, look up h, c, k in cgs units. Need to solve for T, find its root!! 
+0 = (2hnu^3 / c^2) / (e^(hnu / kT) - 1)
+The temperature will be 42K ;)
+
