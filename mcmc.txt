@@ -1,0 +1,5 @@
+1. Assign numbers to objects/cities
+2. Decide on ordering cities
+3. Figure out distance using distance equation 
+4. use MCMC methods to figure out the best order that makes the total distance a minimum by first swapping 2 of the objects. If it's better, keep it and switch another 2 to see if that's even better. 
+*Sometimes, it's best to keep somewhat of a worse answer to avoid accepting the local minimum as the global minimum, annealling!!
