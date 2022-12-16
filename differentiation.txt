@@ -1,0 +1,46 @@
+the equation for differentiation is the average between the forward and backward direction derivatives analytically (1st principle): 
+
+average f'(x) = (f(x_0 + h) - f(x_0 - h)) / 2h, central difference formula, result is the central difference estimate  
+
+See the derivative_test directory for an example using the above function
+
+Use this equation and define f(x) as whatever the given function is to find a derivative! 
+Use smaller and smaller h's for better approximations! Ideally less than 1.  
+Space between x values is h; days in the year, h would be 1 day! 
+
+Equation above derived from forward and backward derivatives: 
+
+f'(x) = (f(x_0 + h) - f(x_0)) / h 
+f'(x) = (f(x_0) - f(x_0 - h)) / h
+
+Use Taylor series to approximate derivatives too: 
+
+Forwards:
+f(x_0 + h) = f(x_0) + hf'(x_0) + (h^2f''(x_0)) / 2! + (h^3f'''(x_0)) / 3! + ... 
+Backwards: 
+f(x_0 -h) = f(x_0) - hf'(x_0) + (h^2f''(x_0)) / 2! - (h^3f'''(x_0)) / 3! + ...   
+
+Can also take an average of these two equations to approximate a derivatve! 
+
+From Taylor series to derivative: use the first definition and substitute it in for f'(x_0)!! 
+
+Code example for temperature over a year:
+time = np.arange(0, 364)
+temp = [(array, either input values manually or import them)] 
+
+Example for day 2: 
+f'(x_0 = 2) = (f'(x_0 = 3) - f'(x_0 = 1)) / 2 
+
+Function example: 
+f(x) = x^4 - 2x + 1
+x_0 = 16 
+x = np.arange(15, 18), makes h = 1 
+Can also use x = np.arange(15.9, 18), makes h = 0.1 
+
+But h reductions have a limit! Can lead to way too many data points!! 
+In example above, number of data points increases from 4 to 21!!! Over five times!  
+For uneven grids, h not being the same forwards and backwards: 
+f'(x_i) = h_1 / (h_2(h_1+h_2)) * f(x_(i+1)) - (h_1-h_2) / (h_2*h_1) * f(x_i) - h_2 / (h_1(h_1+h_2)) * f(x_(i-1)) 
+
+See derivative_test.py in this directory for an example of the average derivative equation.
+
