@@ -1,0 +1,97 @@
+Named after the casino, like "rolling dice" or "flipping coins"
+
+These are now simulations, not calculations! Models real life 
+Probability basics: 
+E_k = possible outcome 
+P(E_k) = p_k 
+*p_k MUST be between 0 and 1!!
+*if E_k can't be realized, then p_k = 0 
+*if there are N mutually exclusive outcomes, then sum of all probabilities must be 1!
+sum(i = 1, N)P_i = 1
+These events are discretize! Only have specific values/outcomes that can happen!!
+Think of these as continuous random varaibles. 
+P(x ≤ x' ≤ dx) = p(x)dx, called a probability distribution function (PDF)
+P(a ≤ x ≤ b) = int(a,b)p(x')dx' Constraints p(x) ≥ 0, integral to infinity equals 1!!
+Cumulative Probability:
+P(x' < x) = F(x) = int(-inf, x)p(x')dx', total probability of all events leading up to x 
+Uniform Probability: 
+F(inf) = int(inf)p(x')dx' = int(0, a)p(x')dx' + int(a, b)p(x')dx'+int(b, inf)p(x')dx', but 1st and last terms equal zero, so middle integral from a, b is all this function equals!! 
+p(x) = c
+int(a, b)p(x)dx = c(b - a) = 1, p(x) = 1/(b - a)
+F(x) = int(a, x)p(x')dx' = (x - a)/(b - a)
+
+Need to generate pseudo random numbers:
+*numbers should be uniformly distributed!!
+*numbers need to be statistically independent, mutually exclusive!
+*should NOT repeat for a very very long time, need long periods 
+*need to be reproducable!!
+*need to generate numbers very quickly, repeated multiple times!
+Example is a Linear Congruential Generator 
+x = (A*x + c)modM, mod is the moduluo, remainder, ex 16 % 11 = 5
+Generates new x's using M!
+
+Monte Carlo Integration:
+
+1. Mean Value Method
+I = int(a, b)g(x)dx = int(a, b)[g(x)/p(x)]dxp(x), demand that p(x) is a uniform PDF 
+Recall: p(x) = 1 / (b - a) for a ≤ x ≤ b, 0 elsewhere 
+I = (b - a)int(a, b)p(x)g(x)dx, where the integral here is defined as the expectation value of g(x), 
+average g(x) = int(a, b)p(x)g(x)dx / int(a, b)p(x)dx
+I = (b - a)g(x), g is the expectation value evaluated as an average over n points 
+g = 1/Nsum(i = 1, N)g(x_i)
+I approx (b - a)/N*sum(i = 1, N)g(x_i) = (b - a)<f> Final equation!! 
+
+Example: I = int(0, 2)x^2dx
+I = 2/Nsum(i = 1, N)(x_i)^2 BUT, need to transform number generator to go from 0 to 2 instead of 0 to 1 
+
+2. Monte Carlo Hit or Miss Method 
+Want everything to be in 1st quadrant!
+A = base times height = (b - a)*h
+Need two ranges of random number generation:
+1. RNG1 = [a, b]
+2. RNG2 = [0, c], where c is the max value of the function
+Then pair these as (RNG1, RNG2) and do them for different x-values
+Ones that are above the integral not a part of it 
+Total area = (c - 0)*(b - a), area of the "box" whole domain and range of where the function is graphed, x_max*y_max
+*Ideally, make the box as small as possible that is just oustide of the function!
+Need to count the number of x's under the curve compared to the total number of x's, ratio between the two gives an idea of the area under the curve
+N(under curve)/N(total)*area of box = approx area under curve
+Error function for this method is sqrt(N)
+
+Random Number Generator transformation:
+Transformation Law of Probability: abs(p(y)dy) = abs(p(x)dx), which transforms to p(y) = p(x)*abs(dx/dy), where p(x) is the uniform distribution function (UDF) and p(y) is the desired function 
+
+Example: 
+y = -ln(x), p(x) UDF, p(y)dy = abs(dx/dy)dy = e^-xdy
+Draw random numbers x from UDF, y = -ln(x), get numbers distributed from exponential distribution function, e^-x
+BUT, this can only be done for well-defined functions that easily get to and from x, y, dx, dy
+
+Generalized transformations: 
+F(y) = int(0, y)p(y)dy
+F(y) is CDF of f(y) from y_min to y, F(y) = int(y_min, y)f(y')dy'
+Remember, y is the random number drawn from the function itself!! 
+Pick a y such that int(y_min, y)p(y)dy / int(0, inf)p(y)dy = x!!
+
+Return to example: 
+Want to draw from p(y) = e^-y
+x = (e^-y - 1)/(1 - e^-inf) from equation in line 69, denominator = 1, just get x = e^-y - 1, makes y = -ln(1 + x), which is close to -ln(x). Not exactly the same, but distributed in the exact same way!! 
+
+Integration and Importance Sampling: 
+I = int(a, b)f(x)dx
+f(x) = x^-1/2/(e^x + 1)
+int(0, 1)f(x)dx
+For a general function g(x):
+Weighted average for g: <g> = int(a,b)w(x)g(x)dx / int(a, b)w(x)dx (1), definition of ANY weighted integral!! 
+g(x) = f(x)/w(x), where w is a weight function, sub into (1)
+<g> = <f(x)/w(x)> = int(a, b)f(x)dx / int(a, b)w(x)dx = I / int(a,b)w(x)dx
+Solving for I: I = <f(x)/w(x)>integral(a, b)w(x)dx
+Recall Mean Value Method: I = (b - a)<f>
+Weights no longer constant, need a changing function!! 
+<g>_w = 1/N * sum(i = 1, N)g(x_i), where points are drawn from PDF p(x)
+Make equation (2) have same expectation value form:
+I = 1/N * sum(i = 1, N)f(x_i)/w(x_i)int(a, b)w(x)dx FINAL EQUATION
+
+Importance Sampling Example:
+I = int(0,1)x^-1/2/(e^x + 1)dx 
+Want to weigh towards x^-1/2 since e^x can "blow up", w(x) = x^-1/2
+Numbers need to be drawn from w(x) instead of the function being integrated!! Use the random values in the final equation above and that's how the integral is calculated!
