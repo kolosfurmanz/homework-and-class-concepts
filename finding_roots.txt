@@ -1,0 +1,19 @@
+1st Method: Bisection
+Algorithm in words:
+Step 0: Define function f(x), takes in x, returns y/f(x) values 
+Step 1: Guess 2 values x_0 and x_1 to constrain/bracket the root, eyeball where the root is and pick two values on both sides of it 
+f(x_0)*f(x_1) < 0 
+Step 2: Define tolerance below which f(x_n) is effectively zero 
+f(x) < 10^-2 ~ 0
+Step 3: Test f(x_0) and f(x_1) to see if it's less than the tolerance, if it is, you're good
+Step 4: If not, find midway point between 2 x-values and move one point "x" to there 
+Step 5: Test f(x_2) < tolerance 
+Step 6: Check that you're approaching zero 
+
+2nd Method: Newton-Raphson Method 
+Basic idea to take derivatives over and over again 
+Pick some initial value x_1, assume constant slope of a tangent line, find that tangent line's root and use that new x_2 value, then go back to the y-value of the function and repeat the process until you find an x_n that is less than the tolerance 
+Derived through Taylor series:
+x_(i + 1) = x_i - f(x_i) / f'(x_i), loop through this process since there is a method of finding derivatives of functions (see differentiation.txt) 
+i + 1 is new and i is the old value
+If it doesn't converge, need a "kill switch", use a loop counter += 1 in the loop, if counter > 10^5, break so that the computer doesn't blow up
