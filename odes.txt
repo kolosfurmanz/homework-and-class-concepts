@@ -1,0 +1,40 @@
+DE has form dx/dt = f(x, t), goal is to generally to find x(t)
+Example: dx/dt = 2x/t + 3x^2/t 
+First solve with Euler's method: 
+x(t + h) = x(t) + hf(x, t), where dx/dt = f(x, t)
+Rewrite: x(t + h) = x(t) + hdx/dt
+NOT a good approximation, assumes that it grows linearly, but that is not the case! 
+
+Use 2nd order Runge-Kutta Method! 
+f(x + 1/2h) = x(t) + 1/2hf(x, t)
+k_1 = hf(x, t)
+k_2 = hf(x + 1/2k_1, t + 1/2h)
+
+However, the 2nd order RK Method can take a long time to run through the loop, compromise with the 4th order RK method: 
+k_1 = hf(x, t)
+k_2 = hf(x + 1/2k_1, t + 1/2h)
+k_3 = hf(x + 1/2k_2, t + 1/2h)
+k_4 = hf(x + k_3, t + h)
+x(t + h) = x(t) + 1/6(k_1 + 2k_2 + 2k_3 + k_4)
+
+ODEs with 2 variables:
+dx/dt = xy - x 
+dy / dt = y - xy + sin^2(omega*t)
+Need to solve for x(t) and y(t)!! 
+Need to package x,y into a single variable r 
+dx/dt = f_x(x, y, t)
+dy/dt = f_y(x, y, t)
+dr/dt = f(r, t)
+r = (x, y, ...)
+f_r(t) = (f_x(r, t), f_y(r, t), ...)
+
+Euler's: 
+r(t + h) = r(t) + hf(r, t)
+4th order RK:
+k_1 = hf(r, t)
+k_2 = hf(r + 1/2k_1, t + 1/2h)
+k_3 = hf(r + 1/2k_2, t + 1/2h)
+k_4 = hf(r + k_3, t + h)
+r(t + h) = r(t) + 1/6(k_1 + 2k_2 + 2k_3 + k_4)
+Now we're solving for r(t) instead!! 
+r(t) is really just a list holding both x and y at the same time!
