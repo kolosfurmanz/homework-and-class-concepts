@@ -1,0 +1,79 @@
+Rectangle Rule: 
+
+I = integral(x_1, x_n) f(x)dx approximates to summation(i  = 0, N) (x_(i+1) - x_i) f(x_i), where N is the number of rectangles under the curve 
+x_(i+1) - x_i is the dx and f(x_i) is the height 
+Add the areas of the rectangle with the height being the y-value of the curve at a certain x-value and the width being the distance between two x-values.
+
+Idea translated to pseudocode: 
+int = 0
+for i in range(N):
+    dx = x[i + 1] - x_i
+    fx = f(x[i])
+    int-square = dx * fx
+    int = int + int-square
+
+This is not a very accurate method since a lot of space is lost, a more accurate method is the: 
+
+Trapezoidal Rule:
+
+Recall the area of a trapezoid: [(x_(x + i) - x_i) / 2] * (f(x_(i + 1) -f(x_i))
+I = integral(a, b) f(x)dx = h[1/2(f(a) + f(b)) + summation(k = 1, N -1) f(a + kh)], where h = (b - a) / N 
+I(a, b) = h(i(f(a) + f(b))) + sum(1 to N)f(a + kh)
+Function values at certain x's called nodes, coefficients in front of them called weights. The weight for the node (f(a) + f(b)) is 1/2 and the weight for the rest of the nodes in the summation is 1. 
+
+Simpson's Rule: 
+Uses quadratics!! f(x) = ax^2 + bx + c 
+Now we have a lot of parabolas instead of rectangles or trapezoids. Think of upside down parabolas under the curve.
+Increases in complexity, but accuracy as well and the runtime actually goes down to, much less lines of code needed!! 
+Just like derivatives, the smaller the h, the better the approximation!! 
+Goes from -h to h, centered around x = 0 
+[x-h, x+h], [-h, 0, h]
+f(-h) = Ah^2 - Bh + C
+f(0) = C 
+f(h) = Ah^2 + Bh + C 
+A = 1/h^2[1/2f(-h) - f(0) + 1/2f(h)]
+B = 1/h[f(h) - f(-h)]
+C = f(0)
+Integral from -h to h: 2/3Ah^3 + 2Ch, subsituting in A and C: h/3[f(-h) + 4f(0) + f(h)]
+After doing the algebra and combining like terms: 
+I(a, b) = h/3[f(a) + f(b) + 4sum(k = 1 to N-1, odd)f(a + kh) + 2sum(k = 2 to N-1, even)f(a + kh)]
+range(1, N, 2) for odds 
+range(2, N, 2) for evens 
+OR 
+x = np.linspace(a = 0, b = 2, N+1)
+f(x[1::2]) for odds 
+f(x[2::2]) for evens
+for coding "padawans", range idea is simpler! 
+
+2-Point Gaussian Quadrature: 
+Use 2n - 1 with n being the "degrees of freedom", how many nodes and weights there will be. 
+For 2 points int(a, b) = w_1f(x_1) + w_2f(x_2)
+w_1 = w_2 = (b - a) / 2 weights 
+x_1 = [(b - a) / 2][-1 / sqrt(3)] + (b + a) / 2 node 1
+x_2 = [(b - a) / 2][1 / sqrt(3)] + (b + a) / 2 node 2
+
+For multiple nodes and weights, use Legendre Polynomials: 
+Orthogonal functions, dot products are zero!! 
+P_-1 = 0 
+P_0 = 1
+(j + 1)P_(j + 1) = (2j + 1)xp_j - jp_(j -1)
+Roots of these polynomials are the necessary code! 
+
+Code for finding roots of these polynomials from the textbook:
+from gaussxw import gaussxw, gaussxwab 
+#Use cp /blue/phz3152/share/desika.narayanan/hw4/gaussxw.py to get this code! 
+def f(x): 
+    return x**4 + 2*x -1 
+N = 3 
+a = 0 
+b = 2
+x, w = gaussxwab(N, a, b)
+solution = 0 
+for k in range(N): 
+    solution = solution + (w[k] + f(x[k]))
+print(solution)
+
+This is all that has to be done now!!! This is the official code for Gaussian Quadrature
+*Only usable for smoothly variable polynomial functions!!!
+
+See examples of all methods in integration_example.py in the class_concepts directory. 
