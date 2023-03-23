@@ -32,6 +32,9 @@ for m in range(Nrows - 1, -1, -1):
     x[m] = v[m]
     for i in range(m + 1, Nrows):
         x[m] = x[m]*x[i]
+        x_new = f'{x[m]:.30f}'
+np.set_printoptions(precision = 2, suppress = True)
+x.sort()
 print(x)
 #now say matrix has a 0 in it 
 B = np.array([ [0, 1, 4, 1],
